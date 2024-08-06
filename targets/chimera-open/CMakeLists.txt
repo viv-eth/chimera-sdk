@@ -5,13 +5,22 @@
 # Moritz Scherer <scheremo@iis.ee.ethz.ch>
 
 file(GLOB_RECURSE ASM_SOURCES
-  "src/crt0.S"
+  "src/runtime/crt0.s"
 )
+file(GLOB_RECURSE C_SOURCES
+  "src/*.c"
+)
+
 set_property(SOURCE ${ASM_SOURCES} PROPERTY LANGUAGE ASM)
-add_library(runtime OBJECT ${ASM_SOURCES})
+add_library(runtime OBJECT ${ASM_SOURCES} ${C_SOURCES})
 
 set(ISA rv32imc)
 set(ABI ilp32)
+
+target_include_directories(runtime
+  PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}/include
+)
 
 target_compile_options(runtime
   PUBLIC
