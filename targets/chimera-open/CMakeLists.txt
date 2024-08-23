@@ -5,7 +5,7 @@
 # Moritz Scherer <scheremo@iis.ee.ethz.ch>
 
 file(GLOB_RECURSE ASM_SOURCES
-  "src/runtime/crt0.s"
+  "src/runtime/crt0.S"
 )
 file(GLOB_RECURSE C_SOURCES
   "src/*.c"
