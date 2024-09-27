@@ -17,7 +17,13 @@ target_compile_options(runtime
   PUBLIC
   -march=${ISA}
   -mabi=${ABI}
+  # -ffreestanding
 )
+
+# target_compile_definitions(opentitan_lib
+#     PUBLIC
+#     OT_PLATFORM_RV32
+# )
 
 target_link_options(runtime
   PUBLIC
