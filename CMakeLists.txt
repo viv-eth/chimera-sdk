@@ -25,6 +25,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/cmake/opentitan.cmake)
 
 add_subdirectory(targets)
 add_subdirectory(drivers)
+add_dependencies(drivers generate_uart_regs)
 # add_subdirectory(hal)
 
 add_library(chimera-sdk INTERFACE)
