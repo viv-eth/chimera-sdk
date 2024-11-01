@@ -29,9 +29,13 @@ add_subdirectory(hal)
 add_subdirectory(targets)
 
 add_library(chimera-sdk INTERFACE)
-target_link_libraries(chimera-sdk INTERFACE hal)
 target_link_libraries(chimera-sdk INTERFACE runtime)
 target_sources(chimera-sdk INTERFACE $<TARGET_OBJECTS:runtime>)
+target_link_libraries(chimera-sdk INTERFACE drivers)
+target_link_libraries(chimera-sdk INTERFACE hal)
+
+target_link_libraries(drivers INTERFACE runtime)
+
 
 enable_testing()
 

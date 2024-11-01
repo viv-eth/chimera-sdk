@@ -3,5 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # Moritz Scherer <scheremo@iis.ee.ethz.ch>
+# Viviane Potocnik <vivianep@iis.ee.ethz.ch>
 
 add_subdirectory(testReturnZero)
+add_subdirectory(testHelloWorld)

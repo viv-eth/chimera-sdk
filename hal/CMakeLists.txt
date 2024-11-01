@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # Moritz Scherer <scheremo@iis.ee.ethz.ch>
+# Viviane Potocnik <vivianep@iis.ee.ethz.ch>
 
 file(GLOB_RECURSE SOURCES
   "src/*"
@@ -13,4 +14,10 @@ add_library(hal STATIC ${SOURCES})
 target_include_directories(hal
   PUBLIC
   "inc/"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../drivers/opentitan/"
+)
+
+target_link_libraries(hal
+  PUBLIC
+    opentitan_lib
 )
