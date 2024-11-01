@@ -22,9 +22,11 @@ set(CMAKE_TOOLCHAIN_FILE cmake/toolchain_llvm.cmake)
 project(chimera-sdk LANGUAGES C ASM)
 
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/Utils.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/opentitan.cmake)
 
-add_subdirectory(targets)
+add_subdirectory(drivers)
 add_subdirectory(hal)
+add_subdirectory(targets)
 
 add_library(chimera-sdk INTERFACE)
 target_link_libraries(chimera-sdk INTERFACE hal)
