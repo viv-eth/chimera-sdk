@@ -14,3 +14,8 @@ target_include_directories(hal
   PUBLIC
   "inc/"
 )
+
+target_link_libraries(hal
+  PUBLIC
+    picolibc
+)
