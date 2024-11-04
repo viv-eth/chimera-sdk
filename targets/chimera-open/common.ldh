@@ -28,7 +28,7 @@ SECTIONS {
   /* Global and stack pointer */
   /* By default, keep the calling context (boot ROM) stack pointer */
   __global_pointer$ = ADDR(.misc) + SIZEOF(.misc) / 2;
-  __stack_pointer$  = ORIGIN(memisl) + LENGTH(memisl);
+  __stack_pointer$  = __stack_start - 8;
 
   /* Further addresses */
   __base_dma      = 0x01000000;
@@ -48,4 +48,5 @@ SECTIONS {
   __base_memisl   = ORIGIN(memisl);
   __base_spm      = ORIGIN(spm);
   __base_dram     = ORIGIN(dram);
+  __stack_start   = ORIGIN(spm) + LENGTH(spm);
 }
