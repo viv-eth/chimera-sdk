@@ -25,7 +25,10 @@ is not empty.
 
 The applications are built using the RISC-V LLVM toolchain. On IIS systems, users can use the pre-installed LLVM version 12.0.1.
 
-Outside of IIS systems, you need to install LLVM version 12.0.1 or later to ensure compatibility.
+Outside of IIS systems, you need to install LLVM version 12.0.1 or later to ensure compatibility. The exact command on IIS systems is:
+```
+cmake -DTARGET_PLATFORM=[YOURTARGETPLATFORM] -DTOOLCHAIN_DIR=/usr/pack/riscv-1.0-kgf/pulp-llvm-0.12.0/bin ..  && cmake --build .
+```
 
 The correct version of the toolchain can be verified by running
 ```
