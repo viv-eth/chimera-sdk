@@ -3,12 +3,24 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # Moritz Scherer <scheremo@iis.ee.ethz.ch>
+# Viviane Potocnik <vivianep@iis.ee.ethz.ch>
 
 set(AVAILABLE_TARGETS
+  "cheshire"
   "chimera-open"
   CACHE STRING "Available Targets"
 )
 
 get_property(OPT_STRINGS CACHE OPT PROPERTY STRINGS)
 
-add_target_source(${TARGET_PLATFORM})
+if(NOT TARGET_PLATFORM IN_LIST AVAILABLE_TARGETS)
+  message(FATAL_ERROR "Wrong value for TARGET_PLATFORM: Got ${TARGET_PLATFORM}. Available targets are: ${AVAILABLE_TARGETS}")
+endif()
+
+if (TARGET_PLATFORM STREQUAL "cheshire")
+  add_subdirectory(cheshire)
+endif()
+
+if (TARGET_PLATFORM STREQUAL "chimera-open")
+  add_subdirectory(chimera-open)
+endif()
