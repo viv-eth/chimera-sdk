@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # Moritz Scherer <scheremo@iis.ee.ethz.ch>
+# Viviane Potocnik <vivianep@iis.ee.ethz.ch>
 
 cmake_minimum_required(VERSION 3.13)
 
@@ -11,11 +12,14 @@ set(CMAKE_C_STANDARD 99)
 # SCHEREMO: Needed to skip compiler test, which doesn't support baremetal targets
 set(CMAKE_C_COMPILER_WORKS 1)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
+
 # SCHEREMO: Help most IDE's LSPs find definitions
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 # SCHEREMO: This toolchain file is only used for test compilation!
-set(CMAKE_TOOLCHAIN_FILE cmake/toolchain_gcc.cmake)
+set(CMAKE_TOOLCHAIN_FILE cmake/toolchain_llvm.cmake)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
