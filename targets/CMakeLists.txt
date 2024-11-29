@@ -6,7 +6,7 @@
 # Viviane Potocnik <vivianep@iis.ee.ethz.ch>
 
 set(AVAILABLE_TARGETS
-  "cheshire"
+  "chimera-host"
   "chimera-open"
   CACHE STRING "Available Targets"
 )
@@ -17,8 +17,8 @@ if(NOT TARGET_PLATFORM IN_LIST AVAILABLE_TARGETS)
   message(FATAL_ERROR "Wrong value for TARGET_PLATFORM: Got ${TARGET_PLATFORM}. Available targets are: ${AVAILABLE_TARGETS}")
 endif()
 
-if (TARGET_PLATFORM STREQUAL "cheshire")
-  add_subdirectory(cheshire)
+if (TARGET_PLATFORM STREQUAL "chimera-host")
+  add_subdirectory(chimera-host)
 endif()
 
 if (TARGET_PLATFORM STREQUAL "chimera-open")
