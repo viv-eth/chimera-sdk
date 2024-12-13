@@ -3,8 +3,14 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # Moritz Scherer <scheremo@iis.ee.ethz.ch>
+# Philip Wiese <wiesep@iis.ee.ethz.ch>
 
-add_subdirectory(generic)
-add_target_source(${TARGET_PLATFORM})
+# Define mappings for tests
+set(TEST_MAPPINGS
+    chimera-convolve:chimera-convolve,chimera-open,chimera-host
+    chimera-open:chimera-open,chimera-host
+    chimera-host:chimera-host
+)
 
-# TODO: Add target-specific test directories
+# Call the macro
+add_chimera_subdirectories(${TARGET_PLATFORM} "Test" ${TEST_MAPPINGS})

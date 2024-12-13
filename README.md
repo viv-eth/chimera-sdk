@@ -53,17 +53,45 @@ The resulting binaries will be stored in `build/bin`, and can be used within the
 
 To format all source files, run
 ```
-python scripts/run_clang_format.py -ir hal/
-python scripts/run_clang_format.py -ir targets/
-python scripts/run_clang_format.py -ir tests/
+python scripts/run_clang_format.py -ir hal/ targets/ tests/ drivers/
 ```
 
 Our CI uses llvm-12 for clang-format, so on IIS machines you may run
 ```
-python scripts/run_clang_format.py -ir hal/ --clang-format-executable=/usr/pack/riscv-1.0-kgf/pulp-llvm-0.12.0/bin/clang-format
-
-python scripts/run_clang_format.py -ir targets/ --clang-format-executable=/usr/pack/riscv-1.0-kgf/pulp-llvm-0.12.0/bin/clang-format
-
-python scripts/run_clang_format.py -ir tests/ --clang-format-executable=/usr/pack/riscv-1.0-kgf/pulp-llvm-0.12.0/bin/clang-format
+python scripts/run_clang_format.py -ir tests/ hal/ targets/ drivers/ --clang-format-executable=/usr/pack/riscv-1.0-kgf/pulp-llvm-0.12.0/bin/clang-format
 
 ```
+
+## Visual Studio Code Integration
+
+To enable automatic configuration of the C/C++ extension and support for the integrated cMake build flow on the IIS workstations, add the following content to `.vscode/settings.json`:
+```json
+{
+    "cmake.configureSettings": {
+        "TOOLCHAIN_DIR": "/usr/pack/riscv-1.0-kgf/pulp-llvm-0.12.0/bin",
+        "TARGET_PLATFORM": "chimera-convolve",
+    },
+    "cmake.environment": {
+        "PATH": "/usr/pack/riscv-1.0-kgf/default/bin:${env:PATH}",
+        "LD_LIBRARY_PATH": "/usr/pack/riscv-1.0-kgf/lib64:/usr/pack/riscv-1.0-kgf/lib64",
+    }
+}
+```
+If you are not on an IIS system, you need to adjust the paths according to your local installation.
+
+## Technical Details
+
+### Mixed ISA Compilation
+The current approach compiles all code for both the host and cluster cores into a single library. This requires precise handling to ensure compatibility between the different instruction set architectures (ISAs) and application binary interfaces (ABIs).
+This requires careful handling to avoid invalid instructions caused by mismatched ISAs between the host and cluster cores. Hence, we define four CMake variables,`ABI`, `ISA_HOST`, and `ISA_CLUSTER_SNITCH`, to specify the appropriate ISA for each core type. The ABI has to be identical to ensure correct function calls.
+Furthermore, the tests are split into `src_host` and `src_cluster` directories to clearly separate code executed on the host and cluster cores. 
+
+### cMake Build Flow
+All runtime functions executed by the host core are compiled into a dedicated `runtime_host` static library and the cluster code into `runtime_cluster_<type>` (e.g. `runtime_cluster_snitch`). Additionally, the HAL layer is compiled into the `hal_host` static libary.
+The final binary is seperated into two object libaries, one for the host and one for the cluster core. The host object library is linked with the `runtime_host` and `hal_host` libraries, while the cluster object library is linked with the `runtime_cluster_<type>` library. The final binary is then linked from the two object libraries.
+
+### Warning
+Special attention is required for functions that execute before the cluster core is fully initialized, such as the trampoline function and interrupt handlers. At this stage, critical resources like the stack, global pointer, and thread pointer are not yet configured. Consequently, the compiler must not generate code that allocates stack frames. To address this, such functions are implemented as naked functions, which prevent the compiler from adding prologues or epilogues that rely on stack operations.
+
+**It is recommended to always check the generated assembly code to ensure that the correct instructions are generated for the target core!**
+

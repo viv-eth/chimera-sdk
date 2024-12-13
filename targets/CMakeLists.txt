@@ -8,6 +8,7 @@
 set(AVAILABLE_TARGETS
   "chimera-host"
   "chimera-open"
+  "chimera-convolve"
   CACHE STRING "Available Targets"
 )
 
@@ -17,10 +18,16 @@ if(NOT TARGET_PLATFORM IN_LIST AVAILABLE_TARGETS)
   message(FATAL_ERROR "Wrong value for TARGET_PLATFORM: Got ${TARGET_PLATFORM}. Available targets are: ${AVAILABLE_TARGETS}")
 endif()
 
+message(STATUS "[CHIMERA-SDK] TARGET_PLATFORM       : ${TARGET_PLATFORM}")
+
 if (TARGET_PLATFORM STREQUAL "chimera-host")
   add_subdirectory(chimera-host)
 endif()
 
 if (TARGET_PLATFORM STREQUAL "chimera-open")
   add_subdirectory(chimera-open)
+endif()
+
+if (TARGET_PLATFORM STREQUAL "chimera-convolve")
+  add_subdirectory(chimera-convolve)
 endif()
