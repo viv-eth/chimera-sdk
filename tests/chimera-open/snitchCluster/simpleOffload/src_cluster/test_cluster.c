@@ -9,7 +9,7 @@
 
 #include "soc.h"
 
-static uint32_t *clintPointer = (uint32_t *)CLINT_CTRL_BASE;
+#include "trampoline_snitchCluster.h"
 
 /**
  * @brief Interrupt handler for the cluster, which clears the interrupt flag for the current hart.
@@ -17,29 +17,26 @@ static uint32_t *clintPointer = (uint32_t *)CLINT_CTRL_BASE;
  * @warning Stack, thread and global pointer might not yet be set up!
  */
 __attribute__((naked)) void clusterInterruptHandler() {
+    _SETUP_GP_TP();
+
     asm volatile(
-        // Load global pointer
-        ".option push\n"
-        ".option norelax\n"          // Disable relaxation to ensure `la` behaves as expected
-        "la gp, __global_pointer$\n" // Load address of global pointer
-        ".option pop\n"
-
-        // Set thread pointer (tp) to zero
-        "mv tp, zero\n"
-
         // Load mhartid CSR into t0
         "csrr t0, mhartid\n"
         // Load the base address of clintPointer into t1
-        "lw t1, %0\n"
+        // "lw t1, %0\n"
+
+        // Load clint base address into t1
+        "la t1, __base_clint\n"
+
         // Calculate the interrupt target address: t1 = t1 + (t0 * 4)
         "slli t0, t0, 2\n"
         "add t1, t1, t0\n"
         // Store 0 to the interrupt target address
         "sw zero, 0(t1)\n"
         "ret"
-        :
-        : "m"(clintPointer) // Pass clintPointer as input
-        : "t0", "t1"        // Declare clobbered registers
+        :            // No outputs
+        :            // No inputs
+        : "t0", "t1" // Declare clobbered registers
     );
 }
 

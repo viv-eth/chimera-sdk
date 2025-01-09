@@ -10,27 +10,28 @@ Unless specified otherwise in the respective file headers, all code checked into
 
 ## Documentation
 All revelevant documentation can be found in the `docs` folder and is hosted on GitHub Pages.
-Access the documentation on 
+Access the documentation on
 - [Master Branch](https://pulp-platform.github.io/chimera-sdk/)
 - [Devel Branch](https://pulp-platform.github.io/chimera-sdk/branch/devel)
 
 The documentation for a specific branch can be accessed via `https://pulp-platform.github.io/chimera-sdk/branch/<branch>`
 
 ## Contributing
-### CXX Formatting
-To format all source files, run
-```
-python scripts/run_clang_format.py -ir hal/ targets/ tests/ drivers/
-```
+### Formatting
+To simplify formatting of the code, we provide a Makefiles target that runs clang-format on all source files.
+We recomment that you setup a virtual environment and install the required dependencies using the following commands:
 
-Our CI uses llvm-12 for clang-format, so on IIS machines you may run
-```
-python scripts/run_clang_format.py -ir tests/ hal/ targets/ drivers/ --clang-format-executable=/usr/pack/riscv-1.0-kgf/pulp-llvm-0.12.0/bin/clang-format
-```
-
-### Python Formatting
-To format all python files, run
 ```bash
-python -m yapf -rip .
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+Alternatively you can also use any mamba/conda environment.
+
+Then, to format the code, run the following command:
+
+```bash
+make format
 ```
 
+**The Makefile is only used for utility purposes and not by the build system.!**
