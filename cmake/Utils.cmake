@@ -15,7 +15,9 @@ endmacro()
 ## TODO: Add vsim target or some such
 macro(add_chimera_test name)
   add_chimera_executable(${ARGV})
-  add_test(NAME ${name} COMMAND ${name})
+  if(TEST_MODE STREQUAL "simulation")
+    add_test(NAME ${name} COMMAND ${SIMULATION_BINARY} +BINARY=$<TARGET_FILE:${name}> +PRELMODE=${PRELOAD_MODE_INT})
+  endif()
 endmacro()
 
 macro(add_target_source name)
@@ -36,14 +38,13 @@ endmacro()
 
    Add subdirectories based on a mapping of target platforms to folders.
    The mappings are expected to be in the format ``target_platform:folder1,folder2,...``.
-
    :param target_platform: The target platform to build for.
    :param category: The category of the subdirectories.
    :param mappings: A list of mappings from target platforms to folders. Make sure to wrap the list in quotes!
-   
+
    .. code-block:: cmake
       :caption: Example Usage
-   
+
       set(MAPPINGS
           chimera-convolve:snitch_cluster
           chimera-open:snitch_cluster

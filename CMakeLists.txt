@@ -61,6 +61,48 @@ add_subdirectory(drivers)
 ################################################################################
 # Testing                                                                      #
 ################################################################################
-enable_testing()
+
+set(VALID_TEST_MODES "simulation" "none")
+
+# Option for TEST_MODE with default value
+option(TEST_MODE "Set what validation target the tests should be run on" "none")
+
+# Check if TEST_MODE is set to a valid option
+if(NOT TEST_MODE IN_LIST VALID_TEST_MODES)
+  # Collect all error messages into a single string
+  set(error_messages "")
+  list(APPEND error_messages "[CHIMERA-SDK] Invalid TEST_MODE: ${TEST_MODE}")
+  list(APPEND error_messages "[CHIMERA-SDK] Available options for TEST_MODE are:")
+  foreach(mode IN LISTS VALID_TEST_MODES)
+    list(APPEND error_messages " - ${mode}")
+  endforeach()
+
+  # Convert the list of messages into a single multi-line string
+  list(JOIN error_messages "\n" error_message)
+
+  # Raise fatal error with all messages
+  message(FATAL_ERROR "${error_message}")
+endif()
+
+set(SOC_MODEL_BINARY "chim.bin" CACHE STRING "Path to the simulation binary")
+set(PRELOAD_MODE "0" CACHE STRING "Preload mode for simulation")
+
+if (TEST_MODE STREQUAL "simulation")
+  enable_testing()
+
+  if(NOT EXISTS ${SOC_MODEL_BINARY})
+    message(FATAL_ERROR "SoC model binary ${SOC_MODEL_BINARY} does not exist.")
+  endif()
+
+  # Convert PRELOAD_MODE to integer
+  if ("${PRELOAD_MODE}" MATCHES "^[0-9]+$")
+    set(PRELOAD_MODE_INT ${PRELOAD_MODE})
+  else()
+    message(FATAL_ERROR "PRELOAD_MODE must be an integer.")
+  endif()
+
+  message(STATUS "[CHIMERA-SDK] SoC Model Binary      : ${SOC_MODEL_BINARY}")
+  message(STATUS "[CHIMERA-SDK] Preload Mode          : ${PRELOAD_MODE}")
+endif()
 
 add_subdirectory(tests)
