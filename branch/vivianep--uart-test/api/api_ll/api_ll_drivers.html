@@ -1,0 +1,849 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver API &mdash; Chimera SDK 2024 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6fefd858"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Devices API" href="api_ll_devices.html" />
+    <link rel="prev" title="Low Level API Reference (Runtime)" href="api_ll.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Chimera SDK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/structure.html">Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/build.html">CMake Build System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/ci.html">CI System</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API References</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api_hal/api_hal.html">High‑Level API Reference (HAL)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="api_ll.html">Low Level API Reference (Runtime)</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Driver API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#clusters">Clusters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uart">UART</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clint">CLINT</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api_ll_devices.html">Devices API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_cmake/api_cmake.html">CMake API Reference</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Chimera SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API References</a></li>
+          <li class="breadcrumb-item"><a href="api_ll.html">Low Level API Reference (Runtime)</a></li>
+      <li class="breadcrumb-item active">Driver API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api/api_ll/api_ll_drivers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="driver-api">
+<h1>Driver API<a class="headerlink" href="#driver-api" title="Link to this heading"></a></h1>
+<section id="clusters">
+<h2>Clusters<a class="headerlink" href="#clusters" title="Link to this heading"></a></h2>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv420_trampoline_function">
+<span id="_CPPv320_trampoline_function"></span><span id="_CPPv220_trampoline_function"></span><span class="target" id="group__cluster_1ga1f65ed3121aab450d961781c7ae79d1e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">_trampoline_function</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NUM_CLUSTER_CORES</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="n"><span class="pre">NULL</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv420_trampoline_function" title="Link to this definition"></a><br /></dt>
+<dd><p>Persistent trampoline function pointers for each cluster core. </p>
+<p>Each entry holds the function to be called by the trampoline on the corresponding core. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv416_trampoline_args">
+<span id="_CPPv316_trampoline_args"></span><span id="_CPPv216_trampoline_args"></span><span id="_trampoline_args__voidPA"></span><span class="target" id="group__cluster_1gacc3ed7f99ea2bd9977b27ec7dbd83df1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">_trampoline_args</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NUM_CLUSTER_CORES</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="n"><span class="pre">NULL</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv416_trampoline_args" title="Link to this definition"></a><br /></dt>
+<dd><p>Persistent argument storage for each cluster core’s trampoline function. </p>
+<p>Each entry holds the <code class="docutils literal notranslate"><span class="pre">void*</span></code> argument passed to the trampoline on the corresponding core. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv417_trampoline_stack">
+<span id="_CPPv317_trampoline_stack"></span><span id="_CPPv217_trampoline_stack"></span><span id="_trampoline_stack__voidPA"></span><span class="target" id="group__cluster_1gac71b2ead45680a19fe3e83b9bc757200"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">_trampoline_stack</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">NUM_CLUSTER_CORES</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="n"><span class="pre">NULL</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv417_trampoline_stack" title="Link to this definition"></a><br /></dt>
+<dd><p>Persistent stack pointer storage for each cluster core’s trampoline context. </p>
+<p>Each entry holds the stack pointer to be loaded by the trampoline on the corresponding core. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv420_generate_trampoline8uint32_tPFvPvEPvPv">
+<span id="_CPPv320_generate_trampoline8uint32_tPFvPvEPvPv"></span><span id="_CPPv220_generate_trampoline8uint32_tPFvPvEPvPv"></span><span class="target" id="group__cluster_1gac659fdf78730e17a4bada37b9a81ca40"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">_generate_trampoline</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">core_id</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">function</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">stack</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420_generate_trampoline8uint32_tPFvPvEPvPv" title="Link to this definition"></a><br /></dt>
+<dd><p>Trampoline function for the cluster core. This function will set up the stack pointer and call the function. </p>
+<p>
+Generate a trampoline function for the cluster core. The trampoline function will set up the stack pointer and call the function.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure that this function is compiled with ISA for the Snitch cores (RV32IM)</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>core_id</strong> – ID of the core to offload to </p></li>
+<li><p><strong>function</strong> – Function pointer to offload </p></li>
+<li><p><strong>args</strong> – Arguments to pass to the function </p></li>
+<li><p><strong>stack</strong> – Stack pointer for core </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pointer to the persistent trampoline function </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv436setup_snitchCluster_interruptHandlerPv">
+<span id="_CPPv336setup_snitchCluster_interruptHandlerPv"></span><span id="_CPPv236setup_snitchCluster_interruptHandlerPv"></span><span id="setup_snitchCluster_interruptHandler__voidP"></span><span class="target" id="group__cluster_1ga88b5393b1dc7b6a9865e7b9abb8db3b1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setup_snitchCluster_interruptHandler</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">handler</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv436setup_snitchCluster_interruptHandlerPv" title="Link to this definition"></a><br /></dt>
+<dd><p>Setup the interrupt handler for the cluster cores. All cores in all clusters will jump to the handler when an interrupt is triggered. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handler</strong> – Function pointer to the interrupt handler </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv426offload_snitchCluster_corePvPvPv7uint8_t8uint32_t">
+<span id="_CPPv326offload_snitchCluster_corePvPvPv7uint8_t8uint32_t"></span><span id="_CPPv226offload_snitchCluster_corePvPvPv7uint8_t8uint32_t"></span><span id="offload_snitchCluster_core__voidP.voidP.voidP.uint8_t.uint32_t"></span><span class="target" id="group__cluster_1gae1a2e2d5553f57d647c70cfecd1eaa1c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">offload_snitchCluster_core</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">function</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">stack_ptr</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">clusterId</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">core_id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426offload_snitchCluster_corePvPvPv7uint8_t8uint32_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Offload a void function pointer to a cluster’s core. The function will be executed on the specified core of the cluster. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> – Function pointer to offload </p></li>
+<li><p><strong>args</strong> – Arguments to pass to the function </p></li>
+<li><p><strong>stack_ptr</strong> – Stack pointer for the core </p></li>
+<li><p><strong>clusterId</strong> – ID of the cluster to offload to </p></li>
+<li><p><strong>core_id</strong> – ID of the core to offload to (cores are 0-indexed for each cluster) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv421offload_snitchClusterPvPvPv7uint8_t">
+<span id="_CPPv321offload_snitchClusterPvPvPv7uint8_t"></span><span id="_CPPv221offload_snitchClusterPvPvPv7uint8_t"></span><span id="offload_snitchCluster__voidP.voidP.voidP.uint8_t"></span><span class="target" id="group__cluster_1ga763338e7d98745ea4aae4c800798991a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">offload_snitchCluster</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">function</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">args</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">stack_ptr</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">clusterId</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421offload_snitchClusterPvPvPv7uint8_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Offload a void function pointer to a cluster. The function will be executed on all cores of the cluster. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> – Function pointer to offload </p></li>
+<li><p><strong>args</strong> – Arguments to pass to the function </p></li>
+<li><p><strong>stack_ptr</strong> – Stack pointer for the core </p></li>
+<li><p><strong>clusterId</strong> – ID of the cluster to offload to </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv423wait_snitchCluster_busy7uint8_t">
+<span id="_CPPv323wait_snitchCluster_busy7uint8_t"></span><span id="_CPPv223wait_snitchCluster_busy7uint8_t"></span><span id="wait_snitchCluster_busy__uint8_t"></span><span class="target" id="group__cluster_1ga7e9daa75e90d7bb9f07c3b45c02c22a7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wait_snitchCluster_busy</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">clusterId</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423wait_snitchCluster_busy7uint8_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Blocking wait for the cluster to become idle. The function busy waits until the cluster is ready. </p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<em><span class="pre">Todo:</span></em></dt>
+<dd><p>Fix the bootrom after adding synchornization primitives for the Snitch cores.</p>
+</dd></dl>
+
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In the current Snitch bootrom implementation each cores clears the busy flag as soon as is returned. Hence the busy flag does not reflect the actual status of the cluster.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>clusterId</strong> – ID of the cluster to wait for. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv425wait_snitchCluster_return7uint8_t">
+<span id="_CPPv325wait_snitchCluster_return7uint8_t"></span><span id="_CPPv225wait_snitchCluster_return7uint8_t"></span><span id="wait_snitchCluster_return__uint8_t"></span><span class="target" id="group__cluster_1ga966e074b9b7fdb3f890f8d95dbb29c24"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wait_snitchCluster_return</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">clusterId</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425wait_snitchCluster_return7uint8_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Wait for the cluster to return a value. The function busy waits until the cluster returns a non-zero value. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The return values must be non-zero, otherwise the function will busy wait forever!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>clusterId</strong> – ID of the cluster to wait for. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>uint32_t Return value of the cluster. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="uart">
+<h2>UART<a class="headerlink" href="#uart" title="Link to this heading"></a></h2>
+<section id="apb-uart-driver">
+<h3>APB UART Driver<a class="headerlink" href="#apb-uart-driver" title="Link to this heading"></a></h3>
+<p>The APB UART driver implementation for Chimera-SDK. This driver provides
+initialization, read, and write functions for an APB-based UART peripheral.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__drivers__uart__apb"></span><em><span class="pre">group</span></em> <span class="sig-name descname"><span class="pre">UART</span> <span class="pre">APB</span> <span class="pre">Driver</span></span></dt>
+<dd><p>APB UART register definitions for Chimera-SDK. </p>
+<p>APB UART driver implementation for Chimera-SDK.</p>
+<p>This file defines register offsets and fields for an APB-based UART peripheral. It is used in conjunction with the UART driver to configure and interact with the hardware.</p>
+<p>This file provides the implementation of UART initialization, read, and write functions for an APB-based UART peripheral. It includes blocking read and write operations along with basic configuration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-uart-register-offsets">UART Register Offsets</p>
+<p>Defines the register offsets for the APB UART peripheral. </p>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_RBR_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1ga42674f8a1ba1befd74f767ace1330425"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_RBR_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_RBR_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Receiver Buffer Register (RBR) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_THR_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1ga42eaefda4eb3664bb0435d606451cf47"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_THR_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_THR_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Transmitter Holding Register (THR) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_INTR_ENABLE_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1ga5a4456b1f9be07cc625f0a08ce9f914c"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_INTR_ENABLE_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_INTR_ENABLE_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Interrupt Enable Register (IER) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_INTR_IDENT_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1ga6fe53cbb4df13a2fb64a76f0af7f2313"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_INTR_IDENT_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_INTR_IDENT_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Interrupt Identification Register (IIR) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_FIFO_CONTROL_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1ga8fd56da62c3c54eb9394e54fd2a014c7"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_FIFO_CONTROL_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_FIFO_CONTROL_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>FIFO Control Register (FCR) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_LINE_CONTROL_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1ga987d7a8cddb861735eac8e1a1e63fcaa"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_LINE_CONTROL_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_LINE_CONTROL_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Line Control Register (LCR) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_MODEM_CONTROL_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1gabf0ac3058e7b5968112adf36e52d9a0b"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_MODEM_CONTROL_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_MODEM_CONTROL_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Modem Control Register (MCR) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_LINE_STATUS_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1ga9d2c8bad8febe3dcc9ecd726dc24616a"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_LINE_STATUS_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_LINE_STATUS_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Line Status Register (LSR) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_MODEM_STATUS_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1ga396409615316693ef8a66f89a162c89d"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_MODEM_STATUS_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_MODEM_STATUS_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Modem Status Register (MSR) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_DLAB_LSB_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1gad99b2d3c55d9eba20624a8fc0d149124"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_DLAB_LSB_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_DLAB_LSB_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Divisor Latch LSB Register (DLAB_LSB) Offset. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_DLAB_MSB_REG_OFFSET">
+<span class="target" id="group__drivers__uart__apb_1ga1f9d6325710f2d14dea26a2ba5605761"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_DLAB_MSB_REG_OFFSET</span></span></span><a class="headerlink" href="#c.UART_DLAB_MSB_REG_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd><p>Divisor Latch MSB Register (DLAB_MSB) Offset. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-uart-line-status-register-(lsr)-bit-definitions">UART Line Status Register (LSR) Bit Definitions</p>
+<p>Defines the bit positions for the Line Status Register (LSR). </p>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_LINE_STATUS_DATA_READY_BIT">
+<span class="target" id="group__drivers__uart__apb_1ga3f0be74fd15f2bdd8a78234865779f54"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_LINE_STATUS_DATA_READY_BIT</span></span></span><a class="headerlink" href="#c.UART_LINE_STATUS_DATA_READY_BIT" title="Link to this definition"></a><br /></dt>
+<dd><p>Data Ready (DR) bit. Set when data is available in RBR. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_LINE_STATUS_THR_EMPTY_BIT">
+<span class="target" id="group__drivers__uart__apb_1ga703ede2e30064e784bfee50b3dd8e766"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_LINE_STATUS_THR_EMPTY_BIT</span></span></span><a class="headerlink" href="#c.UART_LINE_STATUS_THR_EMPTY_BIT" title="Link to this definition"></a><br /></dt>
+<dd><p>Transmitter Holding Register (THR) empty bit. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_LINE_STATUS_TMIT_EMPTY_BIT">
+<span class="target" id="group__drivers__uart__apb_1ga388b4f5e265847a60e1af3df4e53c243"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_LINE_STATUS_TMIT_EMPTY_BIT</span></span></span><a class="headerlink" href="#c.UART_LINE_STATUS_TMIT_EMPTY_BIT" title="Link to this definition"></a><br /></dt>
+<dd><p>Transmitter empty bit. Set when both THR and shift register are empty. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv48rx_ready8uint32_t">
+<span id="_CPPv38rx_ready8uint32_t"></span><span id="_CPPv28rx_ready8uint32_t"></span><span id="rx_ready__uint32_t"></span><span class="target" id="group__drivers__uart__apb_1ga680f2fdb367f1cdf9418423b15998340"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rx_ready</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">base</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv48rx_ready8uint32_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Checks if data is available to read from the UART receiver. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base</strong> – Base address of the UART peripheral. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if data is ready, 0 otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv48tx_ready8uint32_t">
+<span id="_CPPv38tx_ready8uint32_t"></span><span id="_CPPv28tx_ready8uint32_t"></span><span id="tx_ready__uint32_t"></span><span class="target" id="group__drivers__uart__apb_1ga8a02d9c9a058c3dbe0edfda9f0e3e21d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tx_ready</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">base</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv48tx_ready8uint32_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Checks if the transmitter is ready to accept new data. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base</strong> – Base address of the UART peripheral. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if the transmitter is ready, 0 otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv413uart_apb_openP15chi_interface_t">
+<span id="_CPPv313uart_apb_openP15chi_interface_t"></span><span id="_CPPv213uart_apb_openP15chi_interface_t"></span><span id="uart_apb_open__chi_interface_tP"></span><span class="target" id="group__drivers__uart__apb_1ga243b9878978fd4ef8cf1dfbaf1fa4a17"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_apb_open</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413uart_apb_openP15chi_interface_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Opens and initializes the UART interface. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>iface</strong> – UART interface instance. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on success, -1 on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv414uart_apb_closeP15chi_interface_t">
+<span id="_CPPv314uart_apb_closeP15chi_interface_t"></span><span id="_CPPv214uart_apb_closeP15chi_interface_t"></span><span id="uart_apb_close__chi_interface_tP"></span><span class="target" id="group__drivers__uart__apb_1ga3d6cbd680bda7508a598d854e588393f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_apb_close</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414uart_apb_closeP15chi_interface_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Closes the UART interface. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>iface</strong> – UART interface instance. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on success, -1 on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv413uart_apb_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t">
+<span id="_CPPv313uart_apb_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t"></span><span id="_CPPv213uart_apb_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t"></span><span id="uart_apb_read__chi_interface_tP.voidP.uint32_t.chi_interface_callback_t"></span><span class="target" id="group__drivers__uart__apb_1ga4d35410b244bcd83c3c0550d1e24207c"></span><span class="n"><span class="pre">ssize_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_apb_read</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span>, <a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv424chi_interface_callback_t" title="chi_interface_callback_t"><span class="n"><span class="pre">chi_interface_callback_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413uart_apb_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Reads data from the UART receiver (blocking mode). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iface</strong> – UART interface instance. </p></li>
+<li><p><strong>buffer</strong> – Buffer to store received data. </p></li>
+<li><p><strong>size</strong> – Number of bytes to read. </p></li>
+<li><p><strong>cb</strong> – Optional callback function (set to NULL if not needed). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of bytes read on success, -1 on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv414uart_apb_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t">
+<span id="_CPPv314uart_apb_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t"></span><span id="_CPPv214uart_apb_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t"></span><span id="uart_apb_write__chi_interface_tP.voidCP.uint32_t.chi_interface_callback_t"></span><span class="target" id="group__drivers__uart__apb_1ga48305bd79e188f14171e93a09d28e9c3"></span><span class="n"><span class="pre">ssize_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_apb_write</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span>, <a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv424chi_interface_callback_t" title="chi_interface_callback_t"><span class="n"><span class="pre">chi_interface_callback_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414uart_apb_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Writes data to the UART transmitter (blocking mode). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iface</strong> – UART interface instance. </p></li>
+<li><p><strong>buffer</strong> – Data to send. </p></li>
+<li><p><strong>size</strong> – Number of bytes to write. </p></li>
+<li><p><strong>cb</strong> – Optional callback function (set to NULL if not needed). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of bytes written on success, -1 on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="opentitan-uart-driver">
+<h3>OpenTitan UART Driver<a class="headerlink" href="#opentitan-uart-driver" title="Link to this heading"></a></h3>
+<p>The OpenTitan UART driver implementation for Chimera-SDK. This driver offers
+the corresponding UART functionalities optimized for the OpenTitan peripheral.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__drivers__uart__opentitan"></span><em><span class="pre">group</span></em> <span class="sig-name descname"><span class="pre">UART</span> <span class="pre">OpenTitan</span> <span class="pre">Driver</span></span></dt>
+<dd><p>OpenTitan-specific UART driver interface for Chimera-SDK. </p>
+<p>OpenTitan UART driver implementation for Chimera-SDK.</p>
+<p>This file defines the UART context structure for OpenTitan-based UART implementations. It provides an abstraction layer using OpenTitan’s DIF (Device Interface Functions) for UART communication.</p>
+<p>
+This file defines the OpenTitan UART driver using the HAL interface. It adapts the DIF-based implementation to the generic chi_interface API. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This driver has not been tested yet. Chimera currently supports the <code class="docutils literal notranslate"><span class="pre">uart_apb</span></code> driver, and this implementation is still a work in progress (WIP). Use with caution.</p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv419uart_opentitan_openP15chi_interface_t">
+<span id="_CPPv319uart_opentitan_openP15chi_interface_t"></span><span id="_CPPv219uart_opentitan_openP15chi_interface_t"></span><span id="uart_opentitan_open__chi_interface_tP"></span><span class="target" id="group__drivers__uart__opentitan_1gabca2f40ecbc3cc2063edeb79f77baba8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_opentitan_open</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419uart_opentitan_openP15chi_interface_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Opens and initializes the OpenTitan UART interface. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>iface</strong> – UART interface instance. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on success, -1 on error. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv420uart_opentitan_closeP15chi_interface_t">
+<span id="_CPPv320uart_opentitan_closeP15chi_interface_t"></span><span id="_CPPv220uart_opentitan_closeP15chi_interface_t"></span><span id="uart_opentitan_close__chi_interface_tP"></span><span class="target" id="group__drivers__uart__opentitan_1ga5c79175e859c73a12881201a783810c6"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_opentitan_close</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420uart_opentitan_closeP15chi_interface_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Closes the OpenTitan UART interface. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>iface</strong> – UART interface instance. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv419uart_opentitan_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t">
+<span id="_CPPv319uart_opentitan_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t"></span><span id="_CPPv219uart_opentitan_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t"></span><span id="uart_opentitan_read__chi_interface_tP.voidP.uint32_t.chi_interface_callback_t"></span><span class="target" id="group__drivers__uart__opentitan_1ga96737a16e0983a67f45a728870f0ceaf"></span><span class="n"><span class="pre">ssize_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_opentitan_read</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span>, <a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv424chi_interface_callback_t" title="chi_interface_callback_t"><span class="n"><span class="pre">chi_interface_callback_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419uart_opentitan_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Reads data from the OpenTitan UART. </p>
+<p>This is a blocking operation that only returns once the requested number of bytes has been read or a read failure occurs. The optional callback, if provided, is invoked immediately after the blocking read completes, serving as a notification hook. The callback is <strong>not</strong> called asynchronously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iface</strong> – UART interface instance. </p></li>
+<li><p><strong>buffer</strong> – Buffer to store received data. </p></li>
+<li><p><strong>size</strong> – Number of bytes to read. </p></li>
+<li><p><strong>cb</strong> – Optional callback function (set to NULL if not needed). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of bytes read on success, -1 on error. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv420uart_opentitan_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t">
+<span id="_CPPv320uart_opentitan_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t"></span><span id="_CPPv220uart_opentitan_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t"></span><span id="uart_opentitan_write__chi_interface_tP.voidCP.uint32_t.chi_interface_callback_t"></span><span class="target" id="group__drivers__uart__opentitan_1gaa68cd44651d4dc6d0a0d1ff05bd651c1"></span><span class="n"><span class="pre">ssize_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_opentitan_write</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span>, <a class="reference internal" href="../api_hal/api_hal_interface.html#_CPPv424chi_interface_callback_t" title="chi_interface_callback_t"><span class="n"><span class="pre">chi_interface_callback_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420uart_opentitan_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Writes data to the OpenTitan UART transmitter. </p>
+<p>This is a blocking operation that only returns once the data has been written. The optional callback, if provided, is invoked immediately after the blocking write completes, serving as a notification hook. The callback is <strong>not</strong> called asynchronously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iface</strong> – UART interface instance. </p></li>
+<li><p><strong>buffer</strong> – Data to send. </p></li>
+<li><p><strong>size</strong> – Number of bytes to write. </p></li>
+<li><p><strong>cb</strong> – Optional callback function (set to NULL if not needed). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of bytes written on success, -1 on error. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv424opentitan_uart_context_t">
+<span id="_CPPv324opentitan_uart_context_t"></span><span id="_CPPv224opentitan_uart_context_t"></span><span id="opentitan_uart_context_t"></span><span class="target" id="structopentitan__uart__context__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">opentitan_uart_context_t</span></span></span><a class="headerlink" href="#_CPPv424opentitan_uart_context_t" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;uart_opentitan.h&gt;</em></div>
+<p>OpenTitan-specific UART context. </p>
+<p>This structure holds the DIF UART handle and any driver‑specific state needed to drive an OpenTitan UART via the HAL interface. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N24opentitan_uart_context_t4uartE">
+<span id="_CPPv3N24opentitan_uart_context_t4uartE"></span><span id="_CPPv2N24opentitan_uart_context_t4uartE"></span><span id="opentitan_uart_context_t::uart__dif_uart_t"></span><span class="target" id="structopentitan__uart__context__t_1ac0f8415371c64d6c6cf5f01d4e624f48"></span><span class="n"><span class="pre">dif_uart_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart</span></span></span><a class="headerlink" href="#_CPPv4N24opentitan_uart_context_t4uartE" title="Link to this definition"></a><br /></dt>
+<dd><p>OpenTitan DIF UART handle. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="clint">
+<h2>CLINT<a class="headerlink" href="#clint" title="Link to this heading"></a></h2>
+<section id="bit-clint-driver">
+<h3>64-bit CLINT Driver<a class="headerlink" href="#bit-clint-driver" title="Link to this heading"></a></h3>
+<p>The 64-bit CLINT driver implements timer and interrupt functionalities using a 64-bit data type (<cite>uint64_t</cite>) for the mtime register. This configuration is activated when the <cite>PLATFORM_IS_64BIT</cite> flag is defined.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__drivers__clint__64"></span><em><span class="pre">group</span></em> <span class="sig-name descname"><span class="pre">64-bit</span> <span class="pre">CLINT</span> <span class="pre">Driver</span></span></dt>
+<dd><p>64-bit CLINT driver implementation for Chimera-SDK. </p>
+<p>This header provides the declarations for the 64-bit CLINT driver. The generic CLINT HAL API functions (declared in hal/inc/clint.h) are aliased to the 64-bit implementations in this driver. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.PLATFORM_IS_64BIT">
+<span class="target" id="group__drivers__clint__64_1ga358276678ea98a816b4f7a7e7d159e58"></span><span class="sig-name descname"><span class="n"><span class="pre">PLATFORM_IS_64BIT</span></span></span><a class="headerlink" href="#c.PLATFORM_IS_64BIT" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv417clint64_get_mtimev">
+<span id="_CPPv317clint64_get_mtimev"></span><span id="_CPPv217clint64_get_mtimev"></span><span id="clint64_get_mtime__void"></span><span class="target" id="group__drivers__clint__64_1ga470428e0e1cfe930d1f124e8b7400617"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint64_get_mtime</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417clint64_get_mtimev" title="Link to this definition"></a><br /></dt>
+<dd><p>Retrieves the current CLINT <code class="docutils literal notranslate"><span class="pre">mtime</span></code> value. </p>
+<p>This function reads the high and low 64-bit registers and combines them into a 64-bit value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current CLINT time as a <a class="reference internal" href="../api_hal/api_hal_interrupt.html#structclint__mtime__t"><span class="std std-ref">clint_mtime_t</span></a> (uint64_t). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv418clint64_spin_until13clint_mtime_t">
+<span id="_CPPv318clint64_spin_until13clint_mtime_t"></span><span id="_CPPv218clint64_spin_until13clint_mtime_t"></span><span id="clint64_spin_until__clint_mtime_t"></span><span class="target" id="group__drivers__clint__64_1ga0e8448e9fad132adb615bec5cbd690e4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint64_spin_until</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">tgt_mtime</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418clint64_spin_until13clint_mtime_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Spins (busy-waits) until the specified CLINT <code class="docutils literal notranslate"><span class="pre">mtime</span></code> value is reached. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tgt_mtime</strong> – Target CLINT time value. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv418clint64_spin_ticks8uint32_t">
+<span id="_CPPv318clint64_spin_ticks8uint32_t"></span><span id="_CPPv218clint64_spin_ticks8uint32_t"></span><span id="clint64_spin_ticks__uint32_t"></span><span class="target" id="group__drivers__clint__64_1ga7dddced1f80233aa0901a80fad66e701"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint64_spin_ticks</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ticks</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418clint64_spin_ticks8uint32_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Spins (busy-waits) for a given number of ticks. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ticks</strong> – Number of clock cycles to wait. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv421clint64_get_core_freq8uint32_t8uint32_t">
+<span id="_CPPv321clint64_get_core_freq8uint32_t8uint32_t"></span><span id="_CPPv221clint64_get_core_freq8uint32_t8uint32_t"></span><span id="clint64_get_core_freq__uint32_t.uint32_t"></span><span class="target" id="group__drivers__clint__64_1gaac7009bc3b61fa65b2b9cd78340a0f04"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint64_get_core_freq</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ref_freq</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ref_time_inv</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421clint64_get_core_freq8uint32_t8uint32_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Estimates the core frequency based on a reference measurement period. </p>
+<p>This function assumes a stable clock; ref_time_inv is the inverse of the measurement period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_freq</strong> – Reference frequency in Hz. </p></li>
+<li><p><strong>ref_time_inv</strong> – Inverse of the measurement period. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Estimated core frequency in Hz. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv421clint64_set_mtimecmpx8uint32_t13clint_mtime_t">
+<span id="_CPPv321clint64_set_mtimecmpx8uint32_t13clint_mtime_t"></span><span id="_CPPv221clint64_set_mtimecmpx8uint32_t13clint_mtime_t"></span><span id="clint64_set_mtimecmpx__uint32_t.clint_mtime_t"></span><span class="target" id="group__drivers__clint__64_1ga117e9d6e894e580697c540eecc130672"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint64_set_mtimecmpx</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timer_idx</span></span>, <a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421clint64_set_mtimecmpx8uint32_t13clint_mtime_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the CLINT <code class="docutils literal notranslate"><span class="pre">mtimecmp</span></code> register for a specific timer index. </p>
+<p>The high register is written first, then the low register.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timer_idx</strong> – Timer index to configure. </p></li>
+<li><p><strong>value</strong> – Target <code class="docutils literal notranslate"><span class="pre">mtimecmp</span></code> value. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv419clint64_sleep_until8uint32_t13clint_mtime_t">
+<span id="_CPPv319clint64_sleep_until8uint32_t13clint_mtime_t"></span><span id="_CPPv219clint64_sleep_until8uint32_t13clint_mtime_t"></span><span id="clint64_sleep_until__uint32_t.clint_mtime_t"></span><span class="target" id="group__drivers__clint__64_1ga78d4d8d785b7f22f9eefbb7c0efc6017"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint64_sleep_until</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timer_idx</span></span>, <a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">tgt_mtime</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419clint64_sleep_until8uint32_t13clint_mtime_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Puts the core into sleep mode until the specified CLINT <code class="docutils literal notranslate"><span class="pre">mtime</span></code> value is reached. </p>
+<p>This function programs the mtimecmp register, then enables timer and global interrupts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timer_idx</strong> – Timer index. </p></li>
+<li><p><strong>tgt_mtime</strong> – Target CLINT time value. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv419clint64_sleep_ticks8uint32_t8uint32_t">
+<span id="_CPPv319clint64_sleep_ticks8uint32_t8uint32_t"></span><span id="_CPPv219clint64_sleep_ticks8uint32_t8uint32_t"></span><span id="clint64_sleep_ticks__uint32_t.uint32_t"></span><span class="target" id="group__drivers__clint__64_1gae0f9021afd4a1855b6aa8bcbafa65414"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint64_sleep_ticks</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timer_idx</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ticks</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419clint64_sleep_ticks8uint32_t8uint32_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Puts the core into sleep mode for a specified number of ticks. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timer_idx</strong> – Timer index. </p></li>
+<li><p><strong>ticks</strong> – Number of clock cycles to sleep. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="id1">
+<h3>32-bit CLINT Driver<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>The 32-bit CLINT driver adapts the timer and sleep functionalities for 32-bit platforms by representing the mtime register as a structure with two 32-bit members (<cite>low</cite> and <cite>high</cite>). This approach maintains compatibility with 32-bit systems while delivering equivalent performance and functionality as the 64-bit version.</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__drivers__clint__32"></span><em><span class="pre">group</span></em> <span class="sig-name descname"><span class="pre">32-bit</span> <span class="pre">CLINT</span> <span class="pre">Driver</span></span></dt>
+<dd><p>32-bit CLINT driver implementation for Chimera-SDK. </p>
+<p>This header provides the declarations for the 32-bit CLINT driver. The generic CLINT HAL API functions (declared in hal/inc/clint.h) are aliased to the 32-bit implementations in this driver.</p>
+<p>This file provides the implementation of the 32-bit CLINT driver. It includes functions for reading the current time, comparing times, spinning until a target time, and sleeping until a target time. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv417clint32_get_mtimev">
+<span id="_CPPv317clint32_get_mtimev"></span><span id="_CPPv217clint32_get_mtimev"></span><span id="clint32_get_mtime__void"></span><span class="target" id="group__drivers__clint__32_1gab64d61be45c16aa0b7fe1af6de718e22"></span><a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint32_get_mtime</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417clint32_get_mtimev" title="Link to this definition"></a><br /></dt>
+<dd><p>Retrieves the current CLINT <code class="docutils literal notranslate"><span class="pre">mtime</span></code> value. </p>
+<p>This function safely reads the 64-bit timer value from two 32-bit registers, ensuring atomicity by checking that the high register did not change between reads.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current CLINT time as a <a class="reference internal" href="../api_hal/api_hal_interrupt.html#structclint__mtime__t"><span class="std std-ref">clint_mtime_t</span></a> structure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv423clint32_mtime_less_than13clint_mtime_t13clint_mtime_t">
+<span id="_CPPv323clint32_mtime_less_than13clint_mtime_t13clint_mtime_t"></span><span id="_CPPv223clint32_mtime_less_than13clint_mtime_t13clint_mtime_t"></span><span id="clint32_mtime_less_than__clint_mtime_t.clint_mtime_t"></span><span class="target" id="group__drivers__clint__32_1gabc2aab7fc0e9c9ecef56519f187f9f96"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint32_mtime_less_than</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">a</span></span>, <a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">b</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423clint32_mtime_less_than13clint_mtime_t13clint_mtime_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Compares two CLINT <code class="docutils literal notranslate"><span class="pre">mtime</span></code> values. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – First CLINT time value. </p></li>
+<li><p><strong>b</strong> – Second CLINT time value. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if a is smaller than b, 0 otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv418clint32_spin_until13clint_mtime_t">
+<span id="_CPPv318clint32_spin_until13clint_mtime_t"></span><span id="_CPPv218clint32_spin_until13clint_mtime_t"></span><span id="clint32_spin_until__clint_mtime_t"></span><span class="target" id="group__drivers__clint__32_1gacd5721c8e07fd5f904bea63c034bcdee"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint32_spin_until</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">tgt_mtime</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418clint32_spin_until13clint_mtime_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Spins (busy-waits) until the specified CLINT <code class="docutils literal notranslate"><span class="pre">mtime</span></code> value is reached. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tgt_mtime</strong> – Target CLINT time value. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv418clint32_spin_ticks8uint32_t">
+<span id="_CPPv318clint32_spin_ticks8uint32_t"></span><span id="_CPPv218clint32_spin_ticks8uint32_t"></span><span id="clint32_spin_ticks__uint32_t"></span><span class="target" id="group__drivers__clint__32_1gaa355affd65d59fbae2cafe0548427fce"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint32_spin_ticks</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ticks</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418clint32_spin_ticks8uint32_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Spins (busy-waits) for a given number of ticks. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ticks</strong> – Number of clock cycles to wait. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv421clint32_get_core_freq8uint32_t8uint32_t">
+<span id="_CPPv321clint32_get_core_freq8uint32_t8uint32_t"></span><span id="_CPPv221clint32_get_core_freq8uint32_t8uint32_t"></span><span id="clint32_get_core_freq__uint32_t.uint32_t"></span><span class="target" id="group__drivers__clint__32_1ga19f85e16e581a985f776886cd12fb2b6"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint32_get_core_freq</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ref_freq</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ref_time_inv</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421clint32_get_core_freq8uint32_t8uint32_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Estimates the core frequency based on a reference measurement period. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_freq</strong> – Reference frequency in Hz. </p></li>
+<li><p><strong>ref_time_inv</strong> – Inverse of the measurement period. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Estimated core frequency in Hz. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv421clint32_set_mtimecmpx8uint32_t13clint_mtime_t">
+<span id="_CPPv321clint32_set_mtimecmpx8uint32_t13clint_mtime_t"></span><span id="_CPPv221clint32_set_mtimecmpx8uint32_t13clint_mtime_t"></span><span id="clint32_set_mtimecmpx__uint32_t.clint_mtime_t"></span><span class="target" id="group__drivers__clint__32_1ga80b1ce839c9c89ac0532f413bd4cb6ea"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint32_set_mtimecmpx</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timer_idx</span></span>, <a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421clint32_set_mtimecmpx8uint32_t13clint_mtime_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the CLINT <code class="docutils literal notranslate"><span class="pre">mtimecmp</span></code> register for a specific timer index. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timer_idx</strong> – Timer index to configure. </p></li>
+<li><p><strong>value</strong> – Target <code class="docutils literal notranslate"><span class="pre">mtimecmp</span></code> value. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv419clint32_sleep_until8uint32_t13clint_mtime_t">
+<span id="_CPPv319clint32_sleep_until8uint32_t13clint_mtime_t"></span><span id="_CPPv219clint32_sleep_until8uint32_t13clint_mtime_t"></span><span id="clint32_sleep_until__uint32_t.clint_mtime_t"></span><span class="target" id="group__drivers__clint__32_1gab5f23e95f9b0327fe4ddc7de15feab07"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint32_sleep_until</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timer_idx</span></span>, <a class="reference internal" href="../api_hal/api_hal_interrupt.html#_CPPv413clint_mtime_t" title="clint_mtime_t"><span class="n"><span class="pre">clint_mtime_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">tgt_mtime</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419clint32_sleep_until8uint32_t13clint_mtime_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Puts the core into sleep mode until the specified CLINT <code class="docutils literal notranslate"><span class="pre">mtime</span></code> value is reached. </p>
+<p>Before sleeping, this function programs the mtimecmp register and enables interrupts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timer_idx</strong> – Timer index. </p></li>
+<li><p><strong>tgt_mtime</strong> – Target CLINT time value. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv419clint32_sleep_ticks8uint32_t8uint32_t">
+<span id="_CPPv319clint32_sleep_ticks8uint32_t8uint32_t"></span><span id="_CPPv219clint32_sleep_ticks8uint32_t8uint32_t"></span><span id="clint32_sleep_ticks__uint32_t.uint32_t"></span><span class="target" id="group__drivers__clint__32_1ga79edb8b85f81d50da346bd42a0d715bc"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clint32_sleep_ticks</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timer_idx</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ticks</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419clint32_sleep_ticks8uint32_t8uint32_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Puts the core into sleep mode for a specified number of ticks. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timer_idx</strong> – Timer index. </p></li>
+<li><p><strong>ticks</strong> – Number of clock cycles to sleep. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api_ll.html" class="btn btn-neutral float-left" title="Low Level API Reference (Runtime)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api_ll_devices.html" class="btn btn-neutral float-right" title="Devices API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Philip Wiese, Moritz Scherer, Viviane Potocnik.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    Version: vivianep/uart-test
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    
+    <dl>
+      <dt>Versions</dt>
+      
+      <dd><a href="https://pulp-platform.github.io/chimera-sdk//index.html">master</a></dd>
+      
+      <dd><a href="https://pulp-platform.github.io/chimera-sdk/branch/devel//index.html">devel</a></dd>
+      
+    </dl>
+    
+    <br>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
