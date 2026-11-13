@@ -1,0 +1,492 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HAL Communication Interface &mdash; Chimera SDK 2024 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6fefd858"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="HAL Interrupt Controller" href="api_hal_interrupt.html" />
+    <link rel="prev" title="High‑Level API Reference (HAL)" href="api_hal.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Chimera SDK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/structure.html">Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/build.html">CMake Build System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/ci.html">CI System</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="api_hal.html">High‑Level API Reference (HAL)</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">HAL Communication Interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv424chi_interface_callback_t"><code class="docutils literal notranslate"><span class="pre">chi_interface_callback_t</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv415chi_interface_t"><code class="docutils literal notranslate"><span class="pre">chi_interface_t</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv417chi_interface_api"><code class="docutils literal notranslate"><span class="pre">chi_interface_api</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uart-hal">UART (HAL)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api_hal_interrupt.html">HAL Interrupt Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api_hal_device.html">HAL Accelerator Device</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_ll/api_ll.html">Low Level API Reference (Runtime)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_cmake/api_cmake.html">CMake API Reference</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Chimera SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API References</a></li>
+          <li class="breadcrumb-item"><a href="api_hal.html">High‑Level API Reference (HAL)</a></li>
+      <li class="breadcrumb-item active">HAL Communication Interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api/api_hal/api_hal_interface.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hal-communication-interface">
+<h1>HAL Communication Interface<a class="headerlink" href="#hal-communication-interface" title="Link to this heading"></a></h1>
+<p>A communication interface is represented by <cite>chi_interface_t</cite> and exposes
+<cite>open</cite>, <cite>close</cite>, <cite>read</cite>, and <cite>write</cite> methods for UART, SPI, etc.</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv424chi_interface_callback_t">
+<span id="_CPPv324chi_interface_callback_t"></span><span id="_CPPv224chi_interface_callback_t"></span><span id="chi_interface_callback_t"></span><span class="target" id="group__hal__interface_1gaea1057bb9c792bfbeeb970a979b99b31"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">chi_interface_callback_t</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">iface</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv424chi_interface_callback_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Callback function type for asynchronous interface operations. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Param iface<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pointer to the interface instance. </p>
+</dd>
+<dt class="field-even">Return<span class="colon">:</span></dt>
+<dd class="field-even"><p>true if the operation was successful, false otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv415chi_interface_t">
+<span id="_CPPv315chi_interface_t"></span><span id="_CPPv215chi_interface_t"></span><span id="chi_interface_t"></span><span class="target" id="structchi__interface__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">chi_interface_t</span></span></span><a class="headerlink" href="#_CPPv415chi_interface_t" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;interface_api.h&gt;</em></div>
+<p>Communication interface instance. </p>
+<p>This structure represents a generic communication interface (e.g. UART, SPI) and holds the API pointer, the MMIO base, and a driver‑specific configuration pointer. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N15chi_interface_t3apiE">
+<span id="_CPPv3N15chi_interface_t3apiE"></span><span id="_CPPv2N15chi_interface_t3apiE"></span><span id="chi_interface_t::api__chi_interface_api_tP"></span><span class="target" id="structchi__interface__t_1af3a52acfd73d1289bd1bee10836e55fe"></span><span class="n"><span class="pre">chi_interface_api_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">api</span></span></span><a class="headerlink" href="#_CPPv4N15chi_interface_t3apiE" title="Link to this definition"></a><br /></dt>
+<dd><p>Function pointers for this interface. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N15chi_interface_t4baseE">
+<span id="_CPPv3N15chi_interface_t4baseE"></span><span id="_CPPv2N15chi_interface_t4baseE"></span><span id="chi_interface_t::base__uintptr_t"></span><span class="target" id="structchi__interface__t_1a0851f13e5769da7ba835ab05fe8a9dfa"></span><span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">base</span></span></span><a class="headerlink" href="#_CPPv4N15chi_interface_t4baseE" title="Link to this definition"></a><br /></dt>
+<dd><p>MMIO base address (if applicable). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N15chi_interface_t3cfgE">
+<span id="_CPPv3N15chi_interface_t3cfgE"></span><span id="_CPPv2N15chi_interface_t3cfgE"></span><span id="chi_interface_t::cfg__voidP"></span><span class="target" id="structchi__interface__t_1acfaf1b54dfdc60f19010a769f2c35185"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cfg</span></span></span><a class="headerlink" href="#_CPPv4N15chi_interface_t3cfgE" title="Link to this definition"></a><br /></dt>
+<dd><p>Driver‑specific configuration. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv417chi_interface_api">
+<span id="_CPPv317chi_interface_api"></span><span id="_CPPv217chi_interface_api"></span><span id="chi_interface_api"></span><span class="target" id="structchi__interface__api"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">chi_interface_api</span></span></span><a class="headerlink" href="#_CPPv417chi_interface_api" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;interface_api.h&gt;</em></div>
+<p>API structure defining function pointers for communication interfaces. </p>
+<p>Forward declaration of chi_interface_api_t.</p>
+<p>This structure contains the <code class="docutils literal notranslate"><span class="pre">open</span></code>, <code class="docutils literal notranslate"><span class="pre">close</span></code>, <code class="docutils literal notranslate"><span class="pre">read</span></code>, and <code class="docutils literal notranslate"><span class="pre">write</span></code> function pointers, enabling a standardized interface for UART, SPI, etc. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17chi_interface_api4openE">
+<span id="_CPPv3N17chi_interface_api4openE"></span><span id="_CPPv2N17chi_interface_api4openE"></span><span class="target" id="structchi__interface__api_1a5b7605fb95f7661ed6e349fcf1c45e4c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">open</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">iface</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N17chi_interface_api4openE" title="Link to this definition"></a><br /></dt>
+<dd><p>Opens the interface. </p>
+<p>This function initializes the hardware and prepares it for use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param iface<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pointer to the interface instance. </p>
+</dd>
+<dt class="field-even">Return<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on success, negative value on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17chi_interface_api5closeE">
+<span id="_CPPv3N17chi_interface_api5closeE"></span><span id="_CPPv2N17chi_interface_api5closeE"></span><span class="target" id="structchi__interface__api_1a8f572d00c94fc639ff6ecdc31bbd3a36"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">close</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">iface</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N17chi_interface_api5closeE" title="Link to this definition"></a><br /></dt>
+<dd><p>Closes the interface. </p>
+<p>This function releases any resources held by the interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param iface<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pointer to the interface instance. </p>
+</dd>
+<dt class="field-even">Return<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on success, negative value on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17chi_interface_api4readE">
+<span id="_CPPv3N17chi_interface_api4readE"></span><span id="_CPPv2N17chi_interface_api4readE"></span><span class="target" id="structchi__interface__api_1a5e52b4996dc11db5ae33f37b49f35051"></span><span class="n"><span class="pre">ssize_t</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">read</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">iface</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv424chi_interface_callback_t" title="chi_interface_callback_t"><span class="n"><span class="pre">chi_interface_callback_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N17chi_interface_api4readE" title="Link to this definition"></a><br /></dt>
+<dd><p>Reads data from the interface. </p>
+<p>Performs an asynchronous or blocking read, depending on the driver.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param iface<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pointer to the interface instance. </p>
+</dd>
+<dt class="field-even">Param buffer<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pointer to the buffer for incoming data. </p>
+</dd>
+<dt class="field-odd">Param size<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of bytes to read. </p>
+</dd>
+<dt class="field-even">Param cb<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback when the operation completes. </p>
+</dd>
+<dt class="field-odd">Return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of bytes read on success, negative on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17chi_interface_api5writeE">
+<span id="_CPPv3N17chi_interface_api5writeE"></span><span id="_CPPv2N17chi_interface_api5writeE"></span><span class="target" id="structchi__interface__api_1ae2e05ed5850b01e64ceb8700e759b180"></span><span class="n"><span class="pre">ssize_t</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">iface</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv424chi_interface_callback_t" title="chi_interface_callback_t"><span class="n"><span class="pre">chi_interface_callback_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">cb</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N17chi_interface_api5writeE" title="Link to this definition"></a><br /></dt>
+<dd><p>Writes data to the interface. </p>
+<p>Performs an asynchronous or blocking write, depending on the driver.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param iface<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pointer to the interface instance. </p>
+</dd>
+<dt class="field-even">Param buffer<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pointer to the data to send. </p>
+</dd>
+<dt class="field-odd">Param size<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of bytes to write. </p>
+</dd>
+<dt class="field-even">Param cb<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback when the operation completes. </p>
+</dd>
+<dt class="field-odd">Return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of bytes written on success, negative on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<section id="uart-hal">
+<h2>UART (HAL)<a class="headerlink" href="#uart-hal" title="Link to this heading"></a></h2>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_PARITY_NONE">
+<span class="target" id="group__hal__uart_1ga270dea6e1a92dd83fe58802450bdd60c"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_PARITY_NONE</span></span></span><a class="headerlink" href="#c.UART_PARITY_NONE" title="Link to this definition"></a><br /></dt>
+<dd><p>No parity. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_PARITY_EVEN">
+<span class="target" id="group__hal__uart_1ga063b14ac42ef9e8f4246c17a586b14eb"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_PARITY_EVEN</span></span></span><a class="headerlink" href="#c.UART_PARITY_EVEN" title="Link to this definition"></a><br /></dt>
+<dd><p>Even parity. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_PARITY_ODD">
+<span class="target" id="group__hal__uart_1ga229615e64964f68f7a856ea6ffea359e"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_PARITY_ODD</span></span></span><a class="headerlink" href="#c.UART_PARITY_ODD" title="Link to this definition"></a><br /></dt>
+<dd><p>Odd parity. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_DEFAULT_BAUD_RATE">
+<span class="target" id="group__hal__uart_1ga695ad4d27f59bb03b44bdaa55b17c7b5"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_DEFAULT_BAUD_RATE</span></span></span><a class="headerlink" href="#c.UART_DEFAULT_BAUD_RATE" title="Link to this definition"></a><br /></dt>
+<dd><p>Default baud rate (bps). </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_DEFAULT_DATA_BITS">
+<span class="target" id="group__hal__uart_1gaed01711bbda8d6630409a73fe67b8501"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_DEFAULT_DATA_BITS</span></span></span><a class="headerlink" href="#c.UART_DEFAULT_DATA_BITS" title="Link to this definition"></a><br /></dt>
+<dd><p>Default number of data bits. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_DEFAULT_PARITY">
+<span class="target" id="group__hal__uart_1ga7acb7474eeba61bfe5f28c3629f619ed"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_DEFAULT_PARITY</span></span></span><a class="headerlink" href="#c.UART_DEFAULT_PARITY" title="Link to this definition"></a><br /></dt>
+<dd><p>Default parity mode. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_DEFAULT_STOP_BITS">
+<span class="target" id="group__hal__uart_1gaea62f470e264a7286e51b0cf978f047b"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_DEFAULT_STOP_BITS</span></span></span><a class="headerlink" href="#c.UART_DEFAULT_STOP_BITS" title="Link to this definition"></a><br /></dt>
+<dd><p>Default number of stop bits. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_CLK_FREQ_HZ">
+<span class="target" id="group__hal__uart_1gaaaa17b3804fec3b54647cb5be21ae023"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_CLK_FREQ_HZ</span></span></span><a class="headerlink" href="#c.UART_CLK_FREQ_HZ" title="Link to this definition"></a><br /></dt>
+<dd><p>Default clock frequency in Hz. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.UART_BASE_ADDR">
+<span class="target" id="group__hal__uart_1ga4b087ed9535f88e678cea65809f2a71f"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_BASE_ADDR</span></span></span><a class="headerlink" href="#c.UART_BASE_ADDR" title="Link to this definition"></a><br /></dt>
+<dd><p>Default base address for UART. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv411default_cfg">
+<span id="_CPPv311default_cfg"></span><span id="_CPPv211default_cfg"></span><span id="default_cfg__uart_config_t"></span><span class="target" id="group__hal__uart_1gab1146d6654cd7f1d0c72e4009bb91061"></span><a class="reference internal" href="#_CPPv413uart_config_t" title="uart_config_t"><span class="n"><span class="pre">uart_config_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_cfg</span></span></span><a class="headerlink" href="#_CPPv411default_cfg" title="Link to this definition"></a><br /></dt>
+<dd><p>Default UART configuration settings. </p>
+<p>This global configuration structure defines default parameters for UART communication, which can be overridden by the user.</p>
+<p><strong>Default Configuration:</strong> <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uart_config_t</span> <span class="n">default_cfg</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">.</span><span class="n">baud_rate</span>   <span class="o">=</span> <span class="n">UART_DEFAULT_BAUD_RATE</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">clk_freq_hz</span> <span class="o">=</span> <span class="n">UART_CLK_FREQ_HZ</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">data_bits</span>   <span class="o">=</span> <span class="n">UART_DEFAULT_DATA_BITS</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">parity</span>      <span class="o">=</span> <span class="n">UART_DEFAULT_PARITY</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">stop_bits</span>   <span class="o">=</span> <span class="n">UART_DEFAULT_STOP_BITS</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv48uart_api">
+<span id="_CPPv38uart_api"></span><span id="_CPPv28uart_api"></span><span id="uart_api__chi_interface_api_t"></span><span class="target" id="group__hal__uart_1gaea99ad89db35cafa7372a94027998e83"></span><span class="n"><span class="pre">chi_interface_api_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_api</span></span></span><a class="headerlink" href="#_CPPv48uart_api" title="Link to this definition"></a><br /></dt>
+<dd><p>UART HAL API structure. </p>
+<p>This structure defines function pointers for UART operations, allowing for modular driver implementations.</p>
+<p>The default implementation uses weak symbols that can be overridden by specific drivers.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">__attribute__</span><span class="p">((</span><span class="n">weak</span><span class="p">))</span> <span class="n">chi_interface_api_t</span> <span class="n">uart_api</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">.</span><span class="n">open</span>  <span class="o">=</span> <span class="n">uart_open</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">close</span> <span class="o">=</span> <span class="n">uart_close</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">read</span>  <span class="o">=</span> <span class="n">uart_read</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">write</span> <span class="o">=</span> <span class="n">uart_write</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv49uart_openP15chi_interface_t">
+<span id="_CPPv39uart_openP15chi_interface_t"></span><span id="_CPPv29uart_openP15chi_interface_t"></span><span id="uart_open__chi_interface_tP"></span><span class="target" id="group__hal__uart_1ga6575ceb40b5dc8b8b7ed4a1dde129506"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_open</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv49uart_openP15chi_interface_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Opens and initializes the UART interface. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>iface</strong> – Pointer to the UART interface instance. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on success, negative value on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv410uart_closeP15chi_interface_t">
+<span id="_CPPv310uart_closeP15chi_interface_t"></span><span id="_CPPv210uart_closeP15chi_interface_t"></span><span id="uart_close__chi_interface_tP"></span><span class="target" id="group__hal__uart_1gad1748d3d0b5b03d4ab711de9d42f0500"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_close</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv410uart_closeP15chi_interface_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Closes the UART interface. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>iface</strong> – Pointer to the UART interface instance. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on success, negative value on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv49uart_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t">
+<span id="_CPPv39uart_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t"></span><span id="_CPPv29uart_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t"></span><span id="uart_read__chi_interface_tP.voidP.uint32_t.chi_interface_callback_t"></span><span class="target" id="group__hal__uart_1gaadf09dc165614390ebdd3ca578f06154"></span><span class="n"><span class="pre">ssize_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_read</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span>, <a class="reference internal" href="#_CPPv424chi_interface_callback_t" title="chi_interface_callback_t"><span class="n"><span class="pre">chi_interface_callback_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv49uart_readP15chi_interface_tPv8uint32_t24chi_interface_callback_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Reads data from the UART receiver. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iface</strong> – Pointer to the UART interface instance. </p></li>
+<li><p><strong>buffer</strong> – Pointer to the buffer where received data will be stored. </p></li>
+<li><p><strong>size</strong> – Number of bytes to read. </p></li>
+<li><p><strong>cb</strong> – Optional callback function to signal completion. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of bytes read on success, negative value on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv410uart_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t">
+<span id="_CPPv310uart_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t"></span><span id="_CPPv210uart_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t"></span><span id="uart_write__chi_interface_tP.voidCP.uint32_t.chi_interface_callback_t"></span><span class="target" id="group__hal__uart_1ga8a35e0934be8a6be85f0e7acb4815d76"></span><span class="n"><span class="pre">ssize_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_write</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415chi_interface_t" title="chi_interface_t"><span class="n"><span class="pre">chi_interface_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">iface</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span>, <a class="reference internal" href="#_CPPv424chi_interface_callback_t" title="chi_interface_callback_t"><span class="n"><span class="pre">chi_interface_callback_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">cb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv410uart_writeP15chi_interface_tPKv8uint32_t24chi_interface_callback_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Writes data to the UART transmitter. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iface</strong> – Pointer to the UART interface instance. </p></li>
+<li><p><strong>buffer</strong> – Pointer to the data to send. </p></li>
+<li><p><strong>size</strong> – Number of bytes to write. </p></li>
+<li><p><strong>cb</strong> – Optional callback function to signal completion. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of bytes written on success, negative value on failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv413uart_config_t">
+<span id="_CPPv313uart_config_t"></span><span id="_CPPv213uart_config_t"></span><span id="uart_config_t"></span><span class="target" id="structuart__config__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_config_t</span></span></span><a class="headerlink" href="#_CPPv413uart_config_t" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;uart.h&gt;</em></div>
+<p>UART configuration structure. </p>
+<p>This structure holds the configuration settings for UART initialization. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13uart_config_t9baud_rateE">
+<span id="_CPPv3N13uart_config_t9baud_rateE"></span><span id="_CPPv2N13uart_config_t9baud_rateE"></span><span id="uart_config_t::baud_rate__uint32_t"></span><span class="target" id="structuart__config__t_1a988fe3be69cba628a241033f1b16f35e"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">baud_rate</span></span></span><a class="headerlink" href="#_CPPv4N13uart_config_t9baud_rateE" title="Link to this definition"></a><br /></dt>
+<dd><p>Baud rate in bits per second. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13uart_config_t11clk_freq_hzE">
+<span id="_CPPv3N13uart_config_t11clk_freq_hzE"></span><span id="_CPPv2N13uart_config_t11clk_freq_hzE"></span><span id="uart_config_t::clk_freq_hz__uint32_t"></span><span class="target" id="structuart__config__t_1acc4c2218bf2c607f3a1e41dca7f6bf84"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clk_freq_hz</span></span></span><a class="headerlink" href="#_CPPv4N13uart_config_t11clk_freq_hzE" title="Link to this definition"></a><br /></dt>
+<dd><p>Clock frequency in Hz. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13uart_config_t9data_bitsE">
+<span id="_CPPv3N13uart_config_t9data_bitsE"></span><span id="_CPPv2N13uart_config_t9data_bitsE"></span><span id="uart_config_t::data_bits__uint8_t"></span><span class="target" id="structuart__config__t_1a0f3c088321cde3aec9b58b9522f4aff2"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">data_bits</span></span></span><a class="headerlink" href="#_CPPv4N13uart_config_t9data_bitsE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of data bits (typically 8). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13uart_config_t6parityE">
+<span id="_CPPv3N13uart_config_t6parityE"></span><span id="_CPPv2N13uart_config_t6parityE"></span><span id="uart_config_t::parity__uint8_t"></span><span class="target" id="structuart__config__t_1aff64c6f22826d8d2fff036ad2e0e778d"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parity</span></span></span><a class="headerlink" href="#_CPPv4N13uart_config_t6parityE" title="Link to this definition"></a><br /></dt>
+<dd><p>Parity setting (None, Even, Odd). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13uart_config_t9stop_bitsE">
+<span id="_CPPv3N13uart_config_t9stop_bitsE"></span><span id="_CPPv2N13uart_config_t9stop_bitsE"></span><span id="uart_config_t::stop_bits__uint8_t"></span><span class="target" id="structuart__config__t_1a3337bd57233f4fc49cbddedbc6b79efa"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stop_bits</span></span></span><a class="headerlink" href="#_CPPv4N13uart_config_t9stop_bitsE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of stop bits (1 or 2). </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api_hal.html" class="btn btn-neutral float-left" title="High‑Level API Reference (HAL)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api_hal_interrupt.html" class="btn btn-neutral float-right" title="HAL Interrupt Controller" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Philip Wiese, Moritz Scherer, Viviane Potocnik.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    Version: vivianep/opentitan-peripherals
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    
+    <dl>
+      <dt>Versions</dt>
+      
+      <dd><a href="https://pulp-platform.github.io/chimera-sdk//index.html">master</a></dd>
+      
+      <dd><a href="https://pulp-platform.github.io/chimera-sdk/branch/devel//index.html">devel</a></dd>
+      
+    </dl>
+    
+    <br>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
